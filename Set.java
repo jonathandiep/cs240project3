@@ -7,38 +7,43 @@ class Set {
     size = 0;
   }
 
+  public int size() {
+    return size;
+  }
+
   public boolean addData(String name, Double score) {
     Node newNode = new Node(name, score, null);
     if (size == 0) {
       head = newNode;
     } else {
       Node temp = head;
-      while (temp != null) {
-        temp = temp.getNext();
+      System.out.println("head: " + temp.name);
+      while (temp.next != null) {
+        System.out.println("while temp: " + temp.name + temp.score);
+        temp = temp.next;
       }
-      temp.setNext(newNode);
+      temp.next = newNode;
     }
     size++;
     return true;
   }
 
   /*
-  public boolean addElement(Object data) {
-    if (contain(data) || data.equals("")) { return false; }
+  public Double avgScore(String name) {
 
-    Node newNode = new Node(data, null);
-
-    if (size == 0) {
-      head.setNext(newNode);
-    } else {
-      Node temp = head;
-      while (temp.getNext() != null) {
-        temp = temp.getNext();
-      }
-      temp.setNext(newNode);
-    }
-    size++;
-    return true;
   }
   */
+  private static class Node {
+    String name;
+    Double score;
+    Node next;
+
+    public Node(String na, Double s, Node n) {
+      name = na;
+      score = s;
+      next = n;
+    }
+
+  }
+
 }
