@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Set {
   private Node head;
   private int size;
@@ -17,9 +19,7 @@ class Set {
       head = newNode;
     } else {
       Node temp = head;
-      System.out.println("head: " + temp.name);
       while (temp.next != null) {
-        System.out.println("while temp: " + temp.name + temp.score);
         temp = temp.next;
       }
       temp.next = newNode;
@@ -28,11 +28,19 @@ class Set {
     return true;
   }
 
-  /*
-  public Double avgScore(String name) {
+  public int collisions() {
+    ArrayList<String> names = new ArrayList<String>();
+    Node temp = head;
 
+    while (temp != null) {
+      if (!names.contains(temp.name)) names.add(temp.name);
+
+      temp = temp.next;
+    }
+    return names.size() - 1;
   }
-  */
+
+
   private static class Node {
     String name;
     Double score;

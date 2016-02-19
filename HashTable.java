@@ -30,6 +30,19 @@ class HashTable {
     if (table[bucket] == null) {
       table[bucket] = new Set();
     }
+    System.out.println("bucket: " + bucket + " name: " + name + " score: " + score);
     table[bucket].addData(name, score);
+  }
+
+  public int collisionCount() {
+    int total = 0;
+
+    for (int i = 0; i < tableSize; i++) {
+      if (table[i] == null) continue;
+
+      // get collisions from each set and add to total
+      total +=  table[i].collisions();
+    }
+    return total;
   }
 }
