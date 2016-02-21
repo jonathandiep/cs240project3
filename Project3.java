@@ -17,18 +17,15 @@ class Project3 {
     LineNumberReader lnr;
     int hashTableSize = 0;
 
-    // create size of hash table (size is 25% bigger than the file with the most lines)
+    // create size of hash table (use # of lines of largest file / 0.75 which
+    // is the default load factor, assuming each line does not have a collision)
     for (int i = 0; i < files.length; i++) {
       lnr = new LineNumberReader(new FileReader(new File(directory + "/" + files[i].getName())));
       lnr.skip(Long.MAX_VALUE);
-      //System.out.println(files[i].getName() + " " + lnr.getLineNumber());
-      if (lnr.getLineNumber() > hashTableSize) {
-        hashTableSize = lnr.getLineNumber();
-      }
+      if (lnr.getLineNumber() > hashTableSize) hashTableSize = lnr.getLineNumber();
     }
-    hashTableSize = (int) Math.ceil(hashTableSize * 1.25);
+    hashTableSize = (int) Math.ceil(hashTableSize / 0.75);
     HashTable hTable = new HashTable(hashTableSize);
-
 
     // process the argument stores in args
     for (int i = 0; i < files.length; i++) {
@@ -36,7 +33,7 @@ class Project3 {
       String name;
       Double score;
 
-      System.out.println("\nCurrent file name: " + files[i].getName());
+      //System.out.println("\nCurrent file name: " + files[i].getName());
 
       while (input.hasNext()) {
         name = "";
@@ -45,13 +42,25 @@ class Project3 {
         }
         name = name.trim();
         score = new Double(input.next());
-        System.out.println("Name: " + name + " Score: " + score);
+        //System.out.println("Name: " + name + " Score: " + score);
         hTable.addToHashTable(name, score);
       }
     }
 
     System.out.println("final: " + Arrays.toString(hTable.table));
+    System.out.println();
     System.out.println("# of collisions: " + hTable.collisionCount());
     System.out.println("Size of table: " + hTable.tableSize);
+    System.out.println();
+    System.out.println("# of names: " + hTable.totalNameCount());
+    hTable.avgOfEachPlayer();
+    System.out.println("Minimum avg: " + hTable.minScore.get(0).avg);
+    for (int i = 0; i < hTable.minScore.size(); i++) {
+      System.out.println("  " + hTable.minScore.get(i).name);
+    }
+    System.out.println("Maximum avg: " + hTable.maxScore.get(0).avg);
+    for (int i = 0; i < hTable.maxScore.size(); i++) {
+      System.out.println("  " + hTable.maxScore.get(i).name);
+    }
   }
 }
